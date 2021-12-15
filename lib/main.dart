@@ -36,7 +36,7 @@ class _MyHomePage extends StatelessWidget {
             size: Size(constraints.maxWidth, constraints.maxHeight - 32),
             painter: _MyPainter(
                 text:
-                    "「吾輩は猫である。名前-−はまだ無い。」どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。"),
+                    "吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。"),
           );
         },
       ),
@@ -57,8 +57,6 @@ class _MyPainter extends CustomPainter {
 
     final columnCount = size.height ~/ fontSize;
     final rowCount = (text.length / columnCount).ceil();
-
-    print("$rowCount $columnCount ${(text.length * fontSize) % size.height}");
 
     // print(String.fromCharCode(0x3063));
 
@@ -96,26 +94,6 @@ class _MyPainter extends CustomPainter {
       );
 
       tp.layout();
-
-      // if (VerticalRotated.r90degree.contains(char)) {
-      //   canvas.save();
-      //   canvas.translate(
-      //     (size.width - charWidth - x * charWidth).toDouble(),
-      //     (y * fontSize).toDouble(),
-      //   );
-      //   canvas.rotate(pi / 2);
-      //   tp.paint(
-      //     canvas,
-      //     Offset(fontSize / 2, -(fontSize + space / 2)),
-      //     // const Offset(0, 0),
-      //     // Offset(
-      //     //   (size.width - charWidth - x * charWidth).toDouble(),
-      //     //   (y * fontSize).toDouble(),
-      //     // ),
-      //   );
-      //   canvas.restore();
-      // } else {
-
       tp.paint(
         canvas,
         Offset(
@@ -123,7 +101,6 @@ class _MyPainter extends CustomPainter {
           (y * fontSize).toDouble(),
         ),
       );
-      // }
     }
   }
 
