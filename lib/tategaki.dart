@@ -12,11 +12,10 @@ class Tategaki extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        print(constraints.maxHeight);
         return CustomPaint(
           size: Size(
             constraints.maxWidth,
-            constraints.maxHeight - fontSize - 12,
+            constraints.maxHeight - fontSize - 4,
           ),
           painter: _TategakiPainter(text, fontSize, space),
         );
@@ -39,8 +38,6 @@ class _TategakiPainter extends CustomPainter {
     final columnCount = (size.height / fontSize).ceil();
     final rowCount = (text.length / columnCount).ceil();
 
-    // print(String.fromCharCode(0x3063));
-
     for (int x = 0; x < rowCount; x++) {
       drawTextLine(canvas, size, x, columnCount);
     }
@@ -61,7 +58,6 @@ class _TategakiPainter extends CustomPainter {
         char = VerticalRotated.map[char] ?? "";
       }
 
-      // print("0x" + runes.elementAt(x * columnCount + y).toRadixString(16));
       TextSpan span = TextSpan(
         style: TextStyle(
           color: Colors.black,
