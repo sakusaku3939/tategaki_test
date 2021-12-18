@@ -1,9 +1,4 @@
-class VerticalRotated {
-  static const r90degree = [
-    "ー",
-  ];
-
-  static const map = {
+class VerticalRotated {static const map = {
     ' ': '　',
     '↑': '→',
     '↓': '←',

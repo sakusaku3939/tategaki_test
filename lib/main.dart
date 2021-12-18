@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:untitled/tategaki.dart';
 import 'package:untitled/vertical_rotated.dart';
 
 void main() {
@@ -30,80 +31,9 @@ class _MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Flutter Demo Home Page'),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return CustomPaint(
-            size: Size(constraints.maxWidth, constraints.maxHeight - 32),
-            painter: _MyPainter(
-                text:
-                    "吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。"),
-          );
-        },
+      body: Tategaki(
+        "吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。",
       ),
     );
   }
-}
-
-class _MyPainter extends CustomPainter {
-  _MyPainter({required this.text, this.fontSize = 24, this.space = 12});
-
-  final String text;
-  final double fontSize;
-  final int space;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.save();
-
-    final columnCount = size.height ~/ fontSize;
-    final rowCount = (text.length / columnCount).ceil();
-
-    // print(String.fromCharCode(0x3063));
-
-    for (int x = 0; x < rowCount; x++) {
-      drawTextLine(canvas, size, x, columnCount);
-    }
-
-    canvas.restore();
-  }
-
-  void drawTextLine(Canvas canvas, Size size, int x, int columnCount) {
-    final runes = text.runes;
-    final charWidth = fontSize + space;
-
-    for (int y = 0; y < columnCount; y++) {
-      final charIndex = x * columnCount + y;
-      if (runes.length <= charIndex) return;
-
-      String char = String.fromCharCode(runes.elementAt(charIndex));
-      if (VerticalRotated.map[char] != null) {
-        char = VerticalRotated.map[char] ?? "";
-      }
-
-      // print("0x" + runes.elementAt(x * columnCount + y).toRadixString(16));
-      TextSpan span = TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: fontSize,
-        ),
-        text: char,
-      );
-      TextPainter tp = TextPainter(
-        text: span,
-        textDirection: TextDirection.ltr,
-      );
-
-      tp.layout();
-      tp.paint(
-        canvas,
-        Offset(
-          (size.width - charWidth - x * charWidth).toDouble(),
-          (y * fontSize).toDouble(),
-        ),
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
