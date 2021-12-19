@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:untitled/vertical_rotated.dart';
 
 class Tategaki extends StatelessWidget {
-  Tategaki(this.text, {this.fontSize = 24, this.space = 12});
+  Tategaki(
+    this.text, {
+    this.style,
+    this.space = 12,
+  });
 
   final String text;
-  final double fontSize;
+  final TextStyle? style;
   final int space;
 
   @override
   Widget build(BuildContext context) {
+    final mergeStyle = DefaultTextStyle.of(context).style.merge(style);
     return LayoutBuilder(
       builder: (context, constraints) {
         return CustomPaint(
           size: Size(
             constraints.maxWidth,
-            constraints.maxHeight - fontSize - 4,
+            constraints.maxHeight - mergeStyle.fontSize! - 4,
           ),
-          painter: _TategakiPainter(text, fontSize, space),
+          painter: _TategakiPainter(text, mergeStyle, space),
         );
       },
     );
@@ -25,17 +30,17 @@ class Tategaki extends StatelessWidget {
 }
 
 class _TategakiPainter extends CustomPainter {
-  _TategakiPainter(this.text, this.fontSize, this.space);
+  _TategakiPainter(this.text, this.style, this.space);
 
   final String text;
-  final double fontSize;
+  final TextStyle style;
   final int space;
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
 
-    final columnCount = (size.height / fontSize).ceil();
+    final columnCount = (size.height / style.fontSize!).ceil();
     final rowCount = (text.length / columnCount).ceil();
 
     for (int x = 0; x < rowCount; x++) {
@@ -47,6 +52,7 @@ class _TategakiPainter extends CustomPainter {
 
   void drawTextLine(Canvas canvas, Size size, int x, int columnCount) {
     final runes = text.runes;
+    final fontSize = style.fontSize!;
     final charWidth = fontSize + space;
 
     for (int y = 0; y < columnCount; y++) {
@@ -59,10 +65,7 @@ class _TategakiPainter extends CustomPainter {
       }
 
       TextSpan span = TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: fontSize,
-        ),
+        style: style,
         text: char,
       );
       TextPainter tp = TextPainter(
