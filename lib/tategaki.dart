@@ -10,7 +10,7 @@ class Tategaki extends StatelessWidget {
 
   final String text;
   final TextStyle? style;
-  final int space;
+  final double space;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _TategakiPainter extends CustomPainter {
 
   final String text;
   final TextStyle style;
-  final int space;
+  final double space;
 
   @override
   void paint(Canvas canvas, Size size) {
