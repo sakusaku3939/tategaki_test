@@ -20,7 +20,7 @@ class Tategaki extends StatelessWidget {
         return CustomPaint(
           size: Size(
             constraints.maxWidth,
-            constraints.maxHeight - mergeStyle.fontSize! - 4,
+            constraints.maxHeight - 4,
           ),
           painter: _TategakiPainter(text, mergeStyle, space),
         );
@@ -40,7 +40,7 @@ class _TategakiPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.save();
 
-    final columnCount = (size.height / style.fontSize!).ceil();
+    final columnCount = size.height ~/ style.fontSize!;
     final rowCount = (text.length / columnCount).ceil();
 
     for (int x = 0; x < rowCount; x++) {
