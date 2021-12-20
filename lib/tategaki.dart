@@ -18,10 +18,7 @@ class Tategaki extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return CustomPaint(
-          size: Size(
-            constraints.maxWidth,
-            constraints.maxHeight - 4,
-          ),
+          size: Size(constraints.maxWidth, constraints.maxHeight - 4),
           painter: _TategakiPainter(text, mergeStyle, space),
         );
       },
@@ -77,7 +74,7 @@ class _TategakiPainter extends CustomPainter {
       tp.paint(
         canvas,
         Offset(
-          (size.width - charWidth - x * charWidth).toDouble(),
+          (size.width - (x + 1) * charWidth).toDouble(),
           (y * fontSize).toDouble(),
         ),
       );
