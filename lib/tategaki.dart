@@ -33,27 +33,50 @@ class _TategakiPainter extends CustomPainter {
   final TextStyle style;
   final double space;
 
+  int charIndex = 0;
+
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
+    final squareCountList = calcSquareCount(size);
 
-    final columnCount = size.height ~/ style.fontSize!;
-    final rowCount = (text.length / columnCount).ceil();
-
-    for (int x = 0; x < rowCount; x++) {
-      drawTextLine(canvas, size, x, columnCount);
+    for (int x = 0; x < squareCountList.length; x++) {
+      drawTextLine(canvas, size, x, squareCountList[x]);
     }
 
     canvas.restore();
   }
 
+  List<int> calcSquareCount(Size size) {
+    final columnSquareCount = size.height ~/ style.fontSize!;
+    int i = 0;
+    List<int> countList = [];
+
+    for (int rune in text.runes) {
+      final isLast = i == columnSquareCount - 1;
+      final isLF = rune == '\n'.runes.first;
+
+      if (isLF && i != 0) {
+        countList.add(i);
+        i = 0;
+      } else if (isLast) {
+        countList.add(i + 1);
+        i = 0;
+      } else {
+        i++;
+      }
+    }
+    countList.add(i);
+
+    return countList;
+  }
+
   void drawTextLine(Canvas canvas, Size size, int x, int columnCount) {
-    final runes = text.runes;
+    final runes = text.replaceAll('\n', '').runes;
     final fontSize = style.fontSize!;
     final charWidth = fontSize + space;
 
     for (int y = 0; y < columnCount; y++) {
-      final charIndex = x * columnCount + y;
       if (runes.length <= charIndex) return;
 
       String char = String.fromCharCode(runes.elementAt(charIndex));
@@ -78,6 +101,7 @@ class _TategakiPainter extends CustomPainter {
           (y * fontSize).toDouble(),
         ),
       );
+      charIndex++;
     }
   }
 
