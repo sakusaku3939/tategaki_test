@@ -53,13 +53,13 @@ class _TategakiPainter extends CustomPainter {
     List<int> countList = [];
 
     for (int rune in text.runes) {
-      final isLast = i == columnSquareCount - 1;
-      final isLF = rune == '\n'.runes.first;
+      final isNextLast = i == columnSquareCount - 1;
+      final isNextLF = rune == '\n'.runes.first;
 
-      if (isLF && i != 0) {
+      if (isNextLF && i != 0) {
         countList.add(i);
         i = 0;
-      } else if (isLast) {
+      } else if (isNextLast) {
         countList.add(i + 1);
         i = 0;
       } else {
