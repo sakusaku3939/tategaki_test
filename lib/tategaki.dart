@@ -40,16 +40,16 @@ class _TategakiPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
-    final squareCountList = calcSquareCount(size);
+    final squareCountList = _calcSquareCount(size);
 
     for (int x = 0; x < squareCountList.length; x++) {
-      drawTextLine(canvas, size, x, squareCountList[x]);
+      _drawTextLine(canvas, size, x, squareCountList[x]);
     }
 
     canvas.restore();
   }
 
-  List<int> calcSquareCount(Size size) {
+  List<int> _calcSquareCount(Size size) {
     final columnSquareCount = size.height ~/ style.fontSize!;
     int i = 0;
     List<int> countList = [];
@@ -73,7 +73,7 @@ class _TategakiPainter extends CustomPainter {
     return countList;
   }
 
-  void drawTextLine(Canvas canvas, Size size, int x, int columnCount) {
+  void _drawTextLine(Canvas canvas, Size size, int x, int columnCount) {
     final runes = text.replaceAll('\n', '').runes;
     final fontSize = style.fontSize!;
     final charWidth = fontSize + space;
