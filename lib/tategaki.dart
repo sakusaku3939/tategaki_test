@@ -17,9 +17,11 @@ class Tategaki extends StatelessWidget {
     final mergeStyle = DefaultTextStyle.of(context).style.merge(style);
     return LayoutBuilder(
       builder: (context, constraints) {
-        return CustomPaint(
-          size: Size(constraints.maxWidth, constraints.maxHeight - 4),
-          painter: _TategakiPainter(text, mergeStyle, space),
+        return RepaintBoundary(
+          child: CustomPaint(
+            size: Size(constraints.maxWidth, constraints.maxHeight - 4),
+            painter: _TategakiPainter(text, mergeStyle, space),
+          ),
         );
       },
     );
