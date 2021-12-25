@@ -14,43 +14,25 @@ class Tategaki extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mergeStyle = DefaultTextStyle.of(context).style.merge(style);
     return LayoutBuilder(
       builder: (context, constraints) {
+        final mergeStyle = DefaultTextStyle.of(context).style.merge(style);
+        final charWidth = mergeStyle.fontSize! + space;
+        final height = constraints.maxHeight - 4;
+        final squareCountList = _calcSquareCount(mergeStyle, height);
+
         return RepaintBoundary(
           child: CustomPaint(
-            size: Size(constraints.maxWidth, constraints.maxHeight - 4),
-            painter: _TategakiPainter(text, mergeStyle, space),
+            size: Size(squareCountList.length * charWidth, height),
+            painter: _TategakiPainter(text, mergeStyle, space, squareCountList),
           ),
         );
       },
     );
   }
-}
 
-class _TategakiPainter extends CustomPainter {
-  _TategakiPainter(this.text, this.style, this.space);
-
-  final String text;
-  final TextStyle style;
-  final double space;
-
-  int charIndex = 0;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.save();
-    final squareCountList = _calcSquareCount(size);
-
-    for (int x = 0; x < squareCountList.length; x++) {
-      _drawTextLine(canvas, size, x, squareCountList[x]);
-    }
-
-    canvas.restore();
-  }
-
-  List<int> _calcSquareCount(Size size) {
-    final columnSquareCount = size.height ~/ style.fontSize!;
+  List<int> _calcSquareCount(TextStyle style, double height) {
+    final columnSquareCount = height ~/ style.fontSize!;
     int i = 0;
     List<int> countList = [];
 
@@ -72,13 +54,35 @@ class _TategakiPainter extends CustomPainter {
 
     return countList;
   }
+}
 
-  void _drawTextLine(Canvas canvas, Size size, int x, int columnCount) {
+class _TategakiPainter extends CustomPainter {
+  _TategakiPainter(this.text, this.style, this.space, this.squareCountList);
+
+  final String text;
+  final TextStyle style;
+  final double space;
+  final List<int> squareCountList;
+
+  int charIndex = 0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.save();
+
+    for (int x = 0; x < squareCountList.length; x++) {
+      _drawTextLine(canvas, size, x);
+    }
+
+    canvas.restore();
+  }
+
+  void _drawTextLine(Canvas canvas, Size size, int x) {
     final runes = text.replaceAll('\n', '').runes;
     final fontSize = style.fontSize!;
     final charWidth = fontSize + space;
 
-    for (int y = 0; y < columnCount; y++) {
+    for (int y = 0; y < squareCountList[x]; y++) {
       if (runes.length <= charIndex) return;
 
       String char = String.fromCharCode(runes.elementAt(charIndex));
